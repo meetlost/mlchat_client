@@ -1,5 +1,5 @@
 /**
- * Translate
+ * translate
  */
 
 function t(str: string): string
