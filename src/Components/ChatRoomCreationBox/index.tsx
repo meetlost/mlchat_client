@@ -6,9 +6,10 @@ import React from "react";
 import { Modal, Button, Form, Input } from "semantic-ui-react";
 import { useFormik } from "formik";
 
+import { ChatRoomType } from "src/Components/ChatRoom/type";
 import { t } from "src/lib/language/translate";
 
-import { HandleChatRoomCreationBoxOpenType, ChatRoomType } from "./type";
+import { HandleChatRoomCreationBoxOpenType } from "./type";
 
 interface Props {
   open: boolean;

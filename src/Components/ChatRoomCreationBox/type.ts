@@ -4,9 +4,4 @@
 
 type HandleChatRoomCreationBoxOpenType = (open: boolean) => void;
 
-interface ChatRoomType {
-  name: string;
-  intro: string;
-}
-
-export type { HandleChatRoomCreationBoxOpenType, ChatRoomType };
+export type { HandleChatRoomCreationBoxOpenType };
