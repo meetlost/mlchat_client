@@ -4,12 +4,14 @@
 
 import React from "react";
 
+import Header from "src/Components/Header";
+
 function Main(): JSX.Element
 {
   return (
     <>
       <div className="app-box">
-        MLChat
+        <Header />
       </div>
     </>
   );
