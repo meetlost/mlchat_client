@@ -4,4 +4,9 @@
 
 type HandleChatRoomCreationBoxOpenType = (open: boolean) => void;
 
-export type { HandleChatRoomCreationBoxOpenType };
+interface FormInputErrorType {
+  content: string;
+  pointing: string;
+}
+
+export type { HandleChatRoomCreationBoxOpenType, FormInputErrorType };
