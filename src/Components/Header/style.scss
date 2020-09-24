@@ -3,11 +3,11 @@
  */
 
 .header-box {
-  border-bottom: 1px solid #E0E1E2;
-
   .ui.menu {
     border: none;
     border-radius: 0;
     box-shadow: none;
+    border-bottom: 1px solid #E0E1E2;
+    height: 4em;
   }
 }

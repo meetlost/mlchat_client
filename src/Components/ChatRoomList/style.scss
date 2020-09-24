@@ -3,20 +3,31 @@
  */
 
 .chat-room-list-box {
-  flex: 1;
-  overflow: auto;
+  padding: 4em 0;
 
   .ui.grid {
     margin: 0;
     padding: 1em;
 
     .column {
-      width: 15em;
-      height: 15em;
+      width: 20em;
+      min-height: 15em;
 
       .card {
-        height: 100%;
         cursor: pointer;
+        height: 100%;
+
+        .content {
+          .header {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+
+          .description {
+            word-break: break-word;
+          }
+        }
       }
     }
   }

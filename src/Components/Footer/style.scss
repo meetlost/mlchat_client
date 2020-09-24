@@ -3,6 +3,8 @@
  */
 
 .footer-box {
-  height: 4em;
-  border-top: 1px solid #E0E1E2;
+  .ui.menu {
+    border-top: 1px solid #E0E1E2;
+    height: 4em;
+  }
 }

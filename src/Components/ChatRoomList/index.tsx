@@ -3,7 +3,7 @@
  */
 
 import React from "react";
-import { Grid, Card } from "semantic-ui-react";
+import { Grid, Card, Icon } from "semantic-ui-react";
 
 import { ChatRoomType } from "src/Components/ChatRoom/type";
 
@@ -30,7 +30,11 @@ function Main(): JSX.Element
           {chatRoomList.map((a: ChatRoomType) => (
             <Grid.Column key={a.name}>
               <Card>
-                {a.name}
+                <Card.Content extra header={a.name} />
+                <Card.Content description={a.intro} />
+                <Card.Content extra>
+                  <Icon name="chat" />
+                </Card.Content>
               </Card>
             </Grid.Column>
           ))}
