@@ -8,5 +8,9 @@
   ],
   "rules": {
     "quotes": ["error", "double"]
+  },
+  "env": {
+    "commonjs": true,
+    "amd": true
   }
 }
