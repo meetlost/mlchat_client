@@ -3,7 +3,8 @@
  */
 
 .chat-room-list-box {
-  padding: 4em 0;
+  flex: 1;
+  overflow: auto;
 
   .ui.grid {
     margin: 0;

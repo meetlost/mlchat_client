@@ -21,7 +21,7 @@ function Main(props: Props): JSX.Element
   return (
     <>
       <div className="header-box">
-        <Menu borderless fixed="top">
+        <Menu borderless>
           <Menu.Item>{t("MLChat")}</Menu.Item>
           <Menu.Item position="right">
             <Button onClick={() => handleChatRoomCreationBoxOpen(true)}>{t("Create Chat Room")}</Button>
