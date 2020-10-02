@@ -5,7 +5,7 @@
 import React from "react";
 import { Menu, Button } from "semantic-ui-react";
 
-import { HandleChatRoomCreationBoxOpenType } from "src/Components/ChatRoomCreationBox/type";
+import { HandleOpenType as HandleChatRoomCreationBoxOpenType } from "src/Components/ChatRoomCreationBox/type";
 import { t } from "src/lib/language/translate";
 
 import "./style.scss";

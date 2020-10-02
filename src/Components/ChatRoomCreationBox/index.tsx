@@ -9,17 +9,17 @@ import { useFormik } from "formik";
 import { ChatRoomType } from "src/Components/ChatRoom/type";
 import { t } from "src/lib/language/translate";
 
-import { HandleChatRoomCreationBoxOpenType, FormInputErrorType } from "./type";
+import { HandleOpenType, FormInputErrorType } from "./type";
 import { createChatRoom } from "./lib";
 
 interface Props {
   open: boolean;
-  handleChatRoomCreationBoxOpen: HandleChatRoomCreationBoxOpenType;
+  handleOpen: HandleOpenType;
 }
 
 function Main(props: Props): JSX.Element
 {
-  const { open, handleChatRoomCreationBoxOpen } = props;
+  const { open, handleOpen } = props;
 
   const NAME_MAX = 16;
   const INTRO_MAX = 64;
@@ -69,9 +69,9 @@ function Main(props: Props): JSX.Element
   }, [formik]);
 
   const handleClose = React.useCallback(() => {
-    handleChatRoomCreationBoxOpen(false);
+    handleOpen(false);
     clearForm();
-  }, [handleChatRoomCreationBoxOpen, clearForm]);
+  }, [handleOpen, clearForm]);
 
   return (
     <>

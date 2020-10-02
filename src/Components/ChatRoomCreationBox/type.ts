@@ -2,11 +2,11 @@
  * type for Chat Room Creation Box
  */
 
-type HandleChatRoomCreationBoxOpenType = (open: boolean) => void;
+type HandleOpenType = (open: boolean) => void;
 
 interface FormInputErrorType {
   content: string;
   pointing: string;
 }
 
-export type { HandleChatRoomCreationBoxOpenType, FormInputErrorType };
+export type { HandleOpenType, FormInputErrorType };

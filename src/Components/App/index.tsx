@@ -8,7 +8,7 @@ import Header from "src/Components/Header";
 import ChatRoomList from "src/Components/ChatRoomList";
 import Footer from "src/Components/Footer";
 import ChatRoomCreationBox from "src/Components/ChatRoomCreationBox";
-import { HandleChatRoomCreationBoxOpenType } from "src/Components/ChatRoomCreationBox/type";
+import { HandleOpenType as HandleChatRoomCreationBoxOpenType } from "src/Components/ChatRoomCreationBox/type";
 
 import "./style.scss";
 
@@ -30,7 +30,7 @@ function Main(): JSX.Element
 
       <ChatRoomCreationBox
         open={chatRoomCreationBoxOpen}
-        handleChatRoomCreationBoxOpen={handleChatRoomCreationBoxOpen}
+        handleOpen={handleChatRoomCreationBoxOpen}
       />
     </>
   );
