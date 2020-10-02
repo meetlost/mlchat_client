@@ -2,18 +2,19 @@
  * lib for Chat Room List
  */
 
-import { ChatRoomType } from "src/Components/ChatRoom/type";
+import { ChatRoomListObjType } from "./type";
 
-async function getChatRoomList(): Promise<ChatRoomType[]>
+async function getChatRoomListObj(): Promise<ChatRoomListObjType>
 {
-  const list: ChatRoomType[] = [];
-
   ////
-  for (let i = 0, len = 10; i < len; i++) {
-    list.push({ name: `${i}`, intro: `${i} intro` });
+  const total = 10;
+  const obj: ChatRoomListObjType = { page: 1, total, list: [] };
+
+  for (let i = 0, len = total; i < len; i++) {
+    obj.list.push({ name: `${i}`, intro: `${i} intro` });
   }
 
-  return list;
+  return obj;
 }
 
-export { getChatRoomList };
+export { getChatRoomListObj };
