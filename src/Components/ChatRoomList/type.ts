@@ -2,6 +2,8 @@
  * type for Chat Room List
  */
 
+import { PaginationProps } from "semantic-ui-react";
+
 import { ChatRoomType } from "src/Components/ChatRoom/type";
 
 interface ChatRoomListPageInfoType {
@@ -15,4 +17,11 @@ interface ChatRoomListObjType extends ChatRoomListPageInfoType {
 
 type HandleChatRoomListPageInfoType = (pageInfo: ChatRoomListPageInfoType) => void;
 
-export type { ChatRoomListPageInfoType, ChatRoomListObjType, HandleChatRoomListPageInfoType };
+type HandleChatRoomListPageChangeType = (event: React.SyntheticEvent, data: PaginationProps) => void;
+
+export type {
+  ChatRoomListPageInfoType,
+  ChatRoomListObjType,
+  HandleChatRoomListPageInfoType,
+  HandleChatRoomListPageChangeType,
+};

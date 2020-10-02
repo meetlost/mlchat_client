@@ -5,17 +5,18 @@
 import React from "react";
 import { Pagination } from "semantic-ui-react";
 
-import { ChatRoomListPageInfoType } from "src/Components/ChatRoomList/type";
+import { ChatRoomListPageInfoType, HandleChatRoomListPageChangeType } from "src/Components/ChatRoomList/type";
 
 import "./style.scss";
 
 interface Props {
   chatRoomListPageInfo: ChatRoomListPageInfoType;
+  handleChatRoomListPageChange: HandleChatRoomListPageChangeType;
 }
 
 function Main(props: Props): JSX.Element
 {
-  const { chatRoomListPageInfo } = props;
+  const { chatRoomListPageInfo, handleChatRoomListPageChange } = props;
 
   return (
     <>
@@ -27,6 +28,7 @@ function Main(props: Props): JSX.Element
           lastItem={null}
           ellipsisItem={null}
           boundaryRange={0}
+          onPageChange={handleChatRoomListPageChange}
         />
       </div>
     </>

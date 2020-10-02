@@ -6,6 +6,7 @@ import React from "react";
 import { Modal, Button, Form } from "semantic-ui-react";
 import { useFormik } from "formik";
 
+import { AppAnyType } from "src/Components/App/type";
 import { ChatRoomType } from "src/Components/ChatRoom/type";
 import { t } from "src/lib/language/translate";
 
@@ -36,8 +37,7 @@ function Main(props: Props): JSX.Element
       intro: "",
     },
     validate: (values: ChatRoomType) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const errors: any = {};
+      const errors: AppAnyType = {};
 
       if (values.name.length === 0 || values.name.length > NAME_MAX) {
         errors["name"] = NAME_ERROR_MSG;
