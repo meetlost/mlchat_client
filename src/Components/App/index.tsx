@@ -8,6 +8,7 @@ import { PaginationProps } from "semantic-ui-react";
 import Header from "src/Components/Header";
 import ChatRoomList from "src/Components/ChatRoomList";
 import Footer from "src/Components/Footer";
+import Loader from "src/Components/Loader";
 import ChatRoomCreationBox from "src/Components/ChatRoomCreationBox";
 import { HandleOpenType as HandleChatRoomCreationBoxOpenType } from "src/Components/ChatRoomCreationBox/type";
 import {
@@ -25,6 +26,7 @@ function Main(): JSX.Element
   const [chatRoomCreationBoxOpen, setChatRoomCreationBoxOpen] = React.useState<boolean>(false);
   const [chatRoomListPageInfo, setChatRoomListPageInfo] = React.useState<ChatRoomListPageInfoType>({ page: 1, total: 1 });
   const [chatRoomList, setChatRoomList] = React.useState<ChatRoomType[]>([]);
+  const [loading, setLoading] = React.useState<boolean>(true);
 
   const handleChatRoomCreationBoxOpen: HandleChatRoomCreationBoxOpenType = React.useCallback((open: boolean) => {
     setChatRoomCreationBoxOpen(open);
@@ -41,7 +43,9 @@ function Main(): JSX.Element
   }, []);
 
   const fetchChatRoomList = React.useCallback(async () => {
+    setLoading(true);
     const obj = await getChatRoomListObj();
+    setLoading(false);
 
     setChatRoomList(obj.list);
     handleChatRoomListPageInfo({ page: obj.page, total: obj.total });
@@ -60,6 +64,8 @@ function Main(): JSX.Element
           chatRoomListPageInfo={chatRoomListPageInfo}
           handleChatRoomListPageChange={handleChatRoomListPageChange}
         />
+
+        <Loader loading={loading} />
       </div>
 
       <ChatRoomCreationBox
