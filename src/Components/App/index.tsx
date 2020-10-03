@@ -17,7 +17,12 @@ import {
   HandleChatRoomListPageChangeType,
 } from "src/Components/ChatRoomList/type";
 import { getChatRoomListObj } from "src/Components/ChatRoomList/lib";
-import { ChatRoomType } from "src/Components/ChatRoom/type";
+import {
+  ChatRoomType,
+  HandleOpenType as HandleChatRoomOpenType,
+  HandleJoinType as HandleChatRoomJoinType,
+} from "src/Components/ChatRoom/type";
+import ChatRoom from "src/Components/ChatRoom";
 
 import "./style.scss";
 
@@ -27,6 +32,8 @@ function Main(): JSX.Element
   const [chatRoomListPageInfo, setChatRoomListPageInfo] = React.useState<ChatRoomListPageInfoType>({ page: 1, total: 1 });
   const [chatRoomList, setChatRoomList] = React.useState<ChatRoomType[]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);
+  const [chatRoomOpen, setChatRoomOpen] = React.useState<boolean>(false);
+  const [chatRoomInfo, setChatRoomInfo] = React.useState<ChatRoomType>({ name: "", intro: "" });
 
   const handleChatRoomCreationBoxOpen: HandleChatRoomCreationBoxOpenType = React.useCallback((open: boolean) => {
     setChatRoomCreationBoxOpen(open);
@@ -40,6 +47,14 @@ function Main(): JSX.Element
     ////
     console.log(event);
     console.log(data);
+  }, []);
+
+  const handleChatRoomOpen: HandleChatRoomOpenType = React.useCallback((open: boolean) => {
+    setChatRoomOpen(open);
+  }, []);
+
+  const handleChatRoomJoin: HandleChatRoomJoinType = React.useCallback((chatRoom: ChatRoomType) => {
+    setChatRoomInfo(chatRoom);
   }, []);
 
   const fetchChatRoomList = React.useCallback(async () => {
@@ -59,7 +74,11 @@ function Main(): JSX.Element
     <>
       <div className="app-box">
         <Header handleChatRoomCreationBoxOpen={handleChatRoomCreationBoxOpen} />
-        <ChatRoomList chatRoomList={chatRoomList} />
+        <ChatRoomList
+          chatRoomList={chatRoomList}
+          handleChatRoomOpen={handleChatRoomOpen}
+          handleChatRoomJoin={handleChatRoomJoin}
+        />
         <Footer
           chatRoomListPageInfo={chatRoomListPageInfo}
           handleChatRoomListPageChange={handleChatRoomListPageChange}
@@ -71,6 +90,11 @@ function Main(): JSX.Element
       <ChatRoomCreationBox
         open={chatRoomCreationBoxOpen}
         handleOpen={handleChatRoomCreationBoxOpen}
+      />
+      <ChatRoom
+        open={chatRoomOpen}
+        handleOpen={handleChatRoomOpen}
+        chatRoomInfo={chatRoomInfo}
       />
     </>
   );

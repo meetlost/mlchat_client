@@ -1,0 +1,70 @@
+/**
+ * style for Chat Room
+ */
+
+.chat-room-box.ui.modal {
+  border-radius: 0.2em;
+
+  > .inner {
+    .header {
+      border-top-left-radius: 0.2em;
+      border-top-right-radius: 0.2em;
+      margin-top: 0;
+
+      > .inner {
+        display: flex;
+        align-items: center;
+
+        .box1 {
+          flex: 1;
+          overflow: hidden;
+
+          .intro {
+            opacity: 0.5;
+          }
+
+          > div {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
+
+        > .icon {
+          cursor: pointer;
+        }
+      }
+    }
+
+    .segment {
+      border-bottom-left-radius: 0.2em;
+      border-bottom-right-radius: 0.2em;
+
+      .chat-panel {
+        height: 10em;
+  
+        .ui.message {
+          height: 100%;
+        }
+      }
+  
+      .chat-input {
+        margin-top: 1em;
+        height: 10em;
+  
+        .ui.form {
+          height: 100%;
+  
+          textarea {
+            height: 100%;
+            resize: none;
+          }
+        }
+      }
+  
+      > button {
+        margin-top: 1em;
+      }
+    }
+  }
+}

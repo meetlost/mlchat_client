@@ -7,4 +7,8 @@ interface ChatRoomType {
   intro: string;
 }
 
-export type { ChatRoomType };
+type HandleOpenType = (open: boolean) => void;
+
+type HandleJoinType = (chatRoom: ChatRoomType) => void;
+
+export type { ChatRoomType, HandleOpenType, HandleJoinType };

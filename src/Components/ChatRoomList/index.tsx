@@ -5,17 +5,28 @@
 import React from "react";
 import { Grid, Card, Icon } from "semantic-ui-react";
 
-import { ChatRoomType } from "src/Components/ChatRoom/type";
+import {
+  ChatRoomType,
+  HandleOpenType as HandleChatRoomOpenType,
+  HandleJoinType as HandleChatRoomJoinType,
+} from "src/Components/ChatRoom/type";
 
 import "./style.scss";
 
 interface Props {
   chatRoomList: ChatRoomType[];
+  handleChatRoomOpen: HandleChatRoomOpenType;
+  handleChatRoomJoin: HandleChatRoomJoinType;
 }
 
 function Main(props: Props): JSX.Element
 {
-  const { chatRoomList } = props;
+  const { chatRoomList, handleChatRoomOpen, handleChatRoomJoin } = props;
+
+  const joinChatRoom = React.useCallback((chatRoom: ChatRoomType) => {
+    handleChatRoomOpen(true);
+    handleChatRoomJoin(chatRoom);
+  }, [handleChatRoomOpen, handleChatRoomJoin]);
 
   return (
     <>
@@ -23,7 +34,7 @@ function Main(props: Props): JSX.Element
         <Grid centered>
           {chatRoomList.map((a: ChatRoomType) => (
             <Grid.Column key={a.name}>
-              <Card>
+              <Card onClick={() => joinChatRoom(a)}>
                 <Card.Content extra header={a.name} />
                 <Card.Content description={a.intro} />
                 <Card.Content extra>
