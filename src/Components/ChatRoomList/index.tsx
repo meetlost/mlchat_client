@@ -7,30 +7,15 @@ import { Grid, Card, Icon } from "semantic-ui-react";
 
 import { ChatRoomType } from "src/Components/ChatRoom/type";
 
-import { HandleChatRoomListPageInfoType } from "./type";
-import { getChatRoomListObj } from "./lib";
 import "./style.scss";
 
 interface Props {
-  handleChatRoomListPageInfo: HandleChatRoomListPageInfoType;
+  chatRoomList: ChatRoomType[];
 }
 
 function Main(props: Props): JSX.Element
 {
-  const { handleChatRoomListPageInfo } = props;
-
-  const [chatRoomList, setChatRoomList] = React.useState<ChatRoomType[]>([]);
-
-  const fetchChatRoomList = React.useCallback(async () => {
-    const obj = await getChatRoomListObj();
-
-    setChatRoomList(obj.list);
-    handleChatRoomListPageInfo({ page: obj.page, total: obj.total });
-  }, [handleChatRoomListPageInfo]);
-
-  React.useEffect(() => {
-    fetchChatRoomList();
-  }, [fetchChatRoomList]);
+  const { chatRoomList } = props;
 
   return (
     <>

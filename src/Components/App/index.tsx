@@ -15,6 +15,8 @@ import {
   HandleChatRoomListPageInfoType,
   HandleChatRoomListPageChangeType,
 } from "src/Components/ChatRoomList/type";
+import { getChatRoomListObj } from "src/Components/ChatRoomList/lib";
+import { ChatRoomType } from "src/Components/ChatRoom/type";
 
 import "./style.scss";
 
@@ -22,6 +24,7 @@ function Main(): JSX.Element
 {
   const [chatRoomCreationBoxOpen, setChatRoomCreationBoxOpen] = React.useState<boolean>(false);
   const [chatRoomListPageInfo, setChatRoomListPageInfo] = React.useState<ChatRoomListPageInfoType>({ page: 1, total: 1 });
+  const [chatRoomList, setChatRoomList] = React.useState<ChatRoomType[]>([]);
 
   const handleChatRoomCreationBoxOpen: HandleChatRoomCreationBoxOpenType = React.useCallback((open: boolean) => {
     setChatRoomCreationBoxOpen(open);
@@ -35,13 +38,24 @@ function Main(): JSX.Element
     ////
     console.log(event);
     console.log(data);
-  }, [])
+  }, []);
+
+  const fetchChatRoomList = React.useCallback(async () => {
+    const obj = await getChatRoomListObj();
+
+    setChatRoomList(obj.list);
+    handleChatRoomListPageInfo({ page: obj.page, total: obj.total });
+  }, [handleChatRoomListPageInfo]);
+
+  React.useEffect(() => {
+    fetchChatRoomList();
+  }, [fetchChatRoomList]);
 
   return (
     <>
       <div className="app-box">
         <Header handleChatRoomCreationBoxOpen={handleChatRoomCreationBoxOpen} />
-        <ChatRoomList handleChatRoomListPageInfo={handleChatRoomListPageInfo} />
+        <ChatRoomList chatRoomList={chatRoomList} />
         <Footer
           chatRoomListPageInfo={chatRoomListPageInfo}
           handleChatRoomListPageChange={handleChatRoomListPageChange}
