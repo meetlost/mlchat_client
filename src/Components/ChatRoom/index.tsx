@@ -45,12 +45,17 @@ function Main(props: Props): JSX.Element
           <Segment attached>
             <div className="chat-panel">
               <Message></Message>
+              <div className="ops-box">
+                <Icon name="group" />
+              </div>
             </div>
+
             <div className="chat-input">
               <Form>
                 <TextArea />
               </Form>
             </div>
+
             <Button fluid>{t("Send")}</Button>
           </Segment>
         </div>
