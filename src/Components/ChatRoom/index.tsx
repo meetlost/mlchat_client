@@ -3,7 +3,7 @@
  */
 
 import React from "react";
-import { Modal, Header, Segment, Button, TextArea, Form, Message, Icon } from "semantic-ui-react";
+import { Modal, Header, Segment, Button, TextArea, Form, Message, Icon, Sidebar } from "semantic-ui-react";
 
 import { ChatRoomType } from "src/Components/ChatRoom/type";
 import { t } from "src/lib/language/translate";
@@ -20,6 +20,8 @@ interface Props {
 function Main(props: Props): JSX.Element
 {
   const { open, handleOpen, chatRoomInfo } = props;
+
+  const [chatRoomUserListVisible, setChatRoomUserListVisible] = React.useState<boolean>(false);
 
   const handleClose = React.useCallback(() => {
     handleOpen(false);
@@ -44,9 +46,18 @@ function Main(props: Props): JSX.Element
           
           <Segment attached>
             <div className="chat-panel">
-              <Message></Message>
+              <div className="msg-wrapper">
+                <Sidebar.Pushable>
+                  <Message></Message>
+                  <Sidebar
+                    direction="left"
+                    animation="overlay"
+                    visible={chatRoomUserListVisible}
+                  />
+                </Sidebar.Pushable>
+              </div>
               <div className="ops-box">
-                <Icon name="group" />
+                <Icon name="group" onClick={() => setChatRoomUserListVisible(!chatRoomUserListVisible)} />
               </div>
             </div>
 
