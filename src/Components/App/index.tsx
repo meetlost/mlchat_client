@@ -52,12 +52,6 @@ function Main(): JSX.Element
     setChatRoomListPageInfo(pageInfo);
   }, []);
 
-  const handleChatRoomListPageChange: HandleChatRoomListPageChangeType = React.useCallback((event: React.SyntheticEvent, data: PaginationProps) => {
-    ////
-    console.log(event);
-    console.log(data);
-  }, []);
-
   const handleChatRoomOpen: HandleChatRoomOpenType = React.useCallback((open: boolean) => {
     setChatRoomOpen(open);
   }, []);
@@ -87,6 +81,10 @@ function Main(): JSX.Element
       }
     }
   }, [handleChatRoomListPageInfo]);
+
+  const handleChatRoomListPageChange: HandleChatRoomListPageChangeType = React.useCallback((event: React.SyntheticEvent, data: PaginationProps) => {
+    fetchChatRoomList(data.activePage as number, defaultPageSize);
+  }, [fetchChatRoomList]);
 
   React.useEffect(() => {
     fetchChatRoomList();
