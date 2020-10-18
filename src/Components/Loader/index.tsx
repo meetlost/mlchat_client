@@ -15,7 +15,7 @@ function Main(props: Props): JSX.Element
 
   return (
     <>
-      <Dimmer active={loading}>
+      <Dimmer active={loading} inverted>
         <Loader />
       </Dimmer>
     </>
