@@ -8,6 +8,7 @@ import { useFormik } from "formik";
 
 import { AppAnyType } from "src/Components/App/type";
 import { ChatRoomType } from "src/Components/ChatRoom/type";
+import ErrorMessage from "src/Components/ErrorMessage";
 import { t } from "src/lib/language/translate";
 
 import { HandleOpenType, FormInputErrorType } from "./type";
@@ -30,6 +31,7 @@ function Main(props: Props): JSX.Element
   const [nameError, setNameError] = React.useState<FormInputErrorType>();
   const [introError, setIntroError] = React.useState<FormInputErrorType>();
   const [submiting, setSubmiting] = React.useState<boolean>(false);
+  const [creationError, setCreationError] = React.useState<string>("");
 
   const formik = useFormik({
     initialValues: {
@@ -57,8 +59,14 @@ function Main(props: Props): JSX.Element
     },
     onSubmit: async (values: ChatRoomType) => {
       setSubmiting(true);
-      await createChatRoom(values);
+      const ret = await createChatRoom(values);
       setSubmiting(false);
+
+      if (ret.okFlag) {
+        handleClose();
+      } else {
+        setCreationError(ret.reason);
+      }
     },
   });
 
@@ -71,6 +79,7 @@ function Main(props: Props): JSX.Element
   const handleClose = React.useCallback(() => {
     handleOpen(false);
     clearForm();
+    setCreationError("");
   }, [handleOpen, clearForm]);
 
   return (
@@ -82,6 +91,8 @@ function Main(props: Props): JSX.Element
         <Modal.Header>{t("Create Chat Room")}</Modal.Header>
 
         <Modal.Content>
+          {creationError && <ErrorMessage message={creationError} />}
+
           <Form>
             <Form.Field required>
               <label>{t("Name")}</label>

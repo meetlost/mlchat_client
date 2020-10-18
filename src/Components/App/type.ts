@@ -7,4 +7,9 @@ interface AppAnyType {
   [key: string]: any;
 }
 
-export type { AppAnyType };
+interface AppRetType {
+  okFlag: boolean;
+  reason: string;
+}
+
+export type { AppAnyType, AppRetType };
