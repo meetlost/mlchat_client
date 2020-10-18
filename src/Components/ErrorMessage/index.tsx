@@ -3,21 +3,27 @@
  */
 
 import React from "react";
+import { Message } from "semantic-ui-react";
 
 import "./style.scss";
 
 interface Props {
   message: string;
+  hasPadding?: boolean;
 }
 
 function Main(props: Props): JSX.Element
 {
-  const { message } = props;
+  const { message, hasPadding } = props;
 
   return (
     <>
       <div className="error-message-box">
-        <span>{message}</span>
+        <div className={`inner${hasPadding ? " has-padding" : ""}`}>
+          <Message color="red">
+            <span>{message}</span>
+          </Message>
+        </div>
       </div>
     </>
   );

@@ -10,6 +10,7 @@ import {
   HandleOpenType as HandleChatRoomOpenType,
   HandleJoinType as HandleChatRoomJoinType,
 } from "src/Components/ChatRoom/type";
+import ErrorMessage from "src/Components/ErrorMessage";
 
 import "./style.scss";
 
@@ -17,11 +18,12 @@ interface Props {
   chatRoomList: ChatRoomType[];
   handleChatRoomOpen: HandleChatRoomOpenType;
   handleChatRoomJoin: HandleChatRoomJoinType;
+  chatRoomListError: string;
 }
 
 function Main(props: Props): JSX.Element
 {
-  const { chatRoomList, handleChatRoomOpen, handleChatRoomJoin } = props;
+  const { chatRoomList, handleChatRoomOpen, handleChatRoomJoin, chatRoomListError } = props;
 
   const joinChatRoom = React.useCallback((chatRoom: ChatRoomType) => {
     handleChatRoomOpen(true);
@@ -31,6 +33,7 @@ function Main(props: Props): JSX.Element
   return (
     <>
       <div className="chat-room-list-box">
+        {chatRoomListError && <ErrorMessage message={chatRoomListError} hasPadding={true} />}
         <Grid centered>
           {chatRoomList.map((a: ChatRoomType) => (
             <Grid.Column key={a.name}>

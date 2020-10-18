@@ -65,7 +65,7 @@ function Main(props: Props): JSX.Element
       if (ret.okFlag) {
         handleClose();
       } else {
-        setCreationError(ret.reason);
+        setCreationError(ret.reason || "");
       }
     },
   });

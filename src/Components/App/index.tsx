@@ -34,6 +34,7 @@ function Main(): JSX.Element
   const [loading, setLoading] = React.useState<boolean>(true);
   const [chatRoomOpen, setChatRoomOpen] = React.useState<boolean>(false);
   const [chatRoomInfo, setChatRoomInfo] = React.useState<ChatRoomType>({ name: "", intro: "" });
+  const [chatRoomListError, setChatRoomListError] = React.useState<string>("");
 
   const handleChatRoomCreationBoxOpen: HandleChatRoomCreationBoxOpenType = React.useCallback((open: boolean) => {
     setChatRoomCreationBoxOpen(open);
@@ -59,11 +60,26 @@ function Main(): JSX.Element
 
   const fetchChatRoomList = React.useCallback(async () => {
     setLoading(true);
-    const obj = await getChatRoomListObj();
+    const pageNumber = 1;
+    const pageSize = 10;
+    const ret = await getChatRoomListObj(pageNumber, pageSize);
     setLoading(false);
 
-    setChatRoomList(obj.list);
-    handleChatRoomListPageInfo({ page: obj.page, total: obj.total });
+    if (!ret.okFlag) {
+      setChatRoomListError(ret.reason || "");
+      setChatRoomList([]);
+      handleChatRoomListPageInfo({ page: pageNumber, total: 0 });
+    } else {
+      setChatRoomListError("");
+
+      if (ret.data) {
+        setChatRoomList(ret.data.list);
+        handleChatRoomListPageInfo({ page: pageNumber, total: Math.ceil(ret.data.total / pageSize) });
+      } else {
+        setChatRoomList([]);
+        handleChatRoomListPageInfo({ page: pageNumber, total: 0 });
+      }
+    }
   }, [handleChatRoomListPageInfo]);
 
   React.useEffect(() => {
@@ -78,6 +94,7 @@ function Main(): JSX.Element
           chatRoomList={chatRoomList}
           handleChatRoomOpen={handleChatRoomOpen}
           handleChatRoomJoin={handleChatRoomJoin}
+          chatRoomListError={chatRoomListError}
         />
         <Footer
           chatRoomListPageInfo={chatRoomListPageInfo}

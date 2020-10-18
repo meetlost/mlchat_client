@@ -9,12 +9,12 @@ import { t } from "src/lib/language/translate";
 
 async function createChatRoom(chatRoom: ChatRoomType): Promise<AppRetType>
 {
-  const ret: AppRetType = { okFlag: true, reason: "" };
+  const ret: AppRetType = { okFlag: true };
 
   const response = await request({
     method: "POST",
     url: "/api/rooms",
-    req: {
+    body: {
       "name": chatRoom.name,
       "intro": chatRoom.intro,
     },

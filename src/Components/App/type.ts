@@ -9,7 +9,8 @@ interface AppAnyType {
 
 interface AppRetType {
   okFlag: boolean;
-  reason: string;
+  reason?: string;
+  data?: AppAnyType;
 }
 
 export type { AppAnyType, AppRetType };

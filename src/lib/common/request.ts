@@ -10,7 +10,8 @@ import { t } from "src/lib/language/translate";
 interface RequestType {
   method: "GET" | "POST";
   url: string;
-  req?: AppAnyType;
+  params?: AppAnyType;
+  body?: AppAnyType;
 }
 
 interface ResponseType {
@@ -22,13 +23,21 @@ interface ResponseType {
 function request(request: RequestType): Promise<ResponseType>
 {
   return new Promise((resolve) => {
+    const extraConfig: AppAnyType = {};
+    if (request.params) {
+      extraConfig.params = request.params;
+    }
+    if (request.body) {
+      extraConfig.data = request.body;
+    }
+
     axios({
       method: request.method,
       url: request.url,
       headers: {
         "Content-Type": "application/json",
       },
-      data: request.req,
+      ...extraConfig,
     }).then(response => {
       const myResponse: ResponseType = { code: 200 };
 

@@ -3,7 +3,9 @@
  */
 
 .error-message-box {
-  span {
-    color: #9F3A38;
+  margin-bottom: 1em;
+
+  .inner.has-padding {
+    padding: 1em;
   }
 }
