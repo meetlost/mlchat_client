@@ -28,8 +28,15 @@ import "./style.scss";
 
 function Main(): JSX.Element
 {
+  const defaultPageNumber = 1;
+  const defaultPageSize = 10;
+  
   const [chatRoomCreationBoxOpen, setChatRoomCreationBoxOpen] = React.useState<boolean>(false);
-  const [chatRoomListPageInfo, setChatRoomListPageInfo] = React.useState<ChatRoomListPageInfoType>({ page: 1, total: 1 });
+  const [chatRoomListPageInfo, setChatRoomListPageInfo] = React.useState<ChatRoomListPageInfoType>({
+    pageNumber: defaultPageNumber,
+    pageSize: defaultPageSize,
+    total: 0,
+  });
   const [chatRoomList, setChatRoomList] = React.useState<ChatRoomType[]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);
   const [chatRoomOpen, setChatRoomOpen] = React.useState<boolean>(false);
@@ -68,16 +75,16 @@ function Main(): JSX.Element
     if (!ret.okFlag) {
       setChatRoomListError(ret.reason || "");
       setChatRoomList([]);
-      handleChatRoomListPageInfo({ page: pageNumber, total: 0 });
+      handleChatRoomListPageInfo({ pageNumber, pageSize, total: 0 });
     } else {
       setChatRoomListError("");
 
       if (ret.data) {
         setChatRoomList(ret.data.list);
-        handleChatRoomListPageInfo({ page: pageNumber, total: ret.data.total });
+        handleChatRoomListPageInfo({ pageNumber, pageSize, total: ret.data.total });
       } else {
         setChatRoomList([]);
-        handleChatRoomListPageInfo({ page: pageNumber, total: 0 });
+        handleChatRoomListPageInfo({ pageNumber, pageSize, total: 0 });
       }
     }
   }, [handleChatRoomListPageInfo]);

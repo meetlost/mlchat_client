@@ -5,7 +5,8 @@
 import { PaginationProps } from "semantic-ui-react";
 
 interface ChatRoomListPageInfoType {
-  page: number;
+  pageNumber: number;
+  pageSize: number;
   total: number;
 }
 
