@@ -9,6 +9,7 @@ import { useFormik } from "formik";
 import { AppAnyType } from "src/Components/App/type";
 import { ChatRoomType } from "src/Components/ChatRoom/type";
 import ErrorMessage from "src/Components/ErrorMessage";
+import { FetchChatRoomListType } from "src/Components/ChatRoomList/type";
 import { t } from "src/lib/language/translate";
 
 import { HandleOpenType, FormInputErrorType } from "./type";
@@ -17,11 +18,12 @@ import { createChatRoom } from "./lib";
 interface Props {
   open: boolean;
   handleOpen: HandleOpenType;
+  fetchChatRoomList: FetchChatRoomListType;
 }
 
 function Main(props: Props): JSX.Element
 {
-  const { open, handleOpen } = props;
+  const { open, handleOpen, fetchChatRoomList } = props;
 
   const NAME_MAX = 16;
   const INTRO_MAX = 64;
@@ -64,6 +66,7 @@ function Main(props: Props): JSX.Element
 
       if (ret.okFlag) {
         handleClose();
+        fetchChatRoomList();
       } else {
         setCreationError(ret.reason || "");
       }

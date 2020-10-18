@@ -15,6 +15,7 @@ import {
   ChatRoomListPageInfoType,
   HandleChatRoomListPageInfoType,
   HandleChatRoomListPageChangeType,
+  FetchChatRoomListType,
 } from "src/Components/ChatRoomList/type";
 import { getChatRoomListObj } from "src/Components/ChatRoomList/lib";
 import {
@@ -65,10 +66,8 @@ function Main(): JSX.Element
     setChatRoomInfo(chatRoom);
   }, []);
 
-  const fetchChatRoomList = React.useCallback(async () => {
+  const fetchChatRoomList: FetchChatRoomListType = React.useCallback(async (pageNumber = defaultPageNumber, pageSize = defaultPageSize) => {
     setLoading(true);
-    const pageNumber = 1;
-    const pageSize = 10;
     const ret = await getChatRoomListObj(pageNumber, pageSize);
     setLoading(false);
 
@@ -114,6 +113,7 @@ function Main(): JSX.Element
       <ChatRoomCreationBox
         open={chatRoomCreationBoxOpen}
         handleOpen={handleChatRoomCreationBoxOpen}
+        fetchChatRoomList={fetchChatRoomList}
       />
       <ChatRoom
         open={chatRoomOpen}
