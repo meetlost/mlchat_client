@@ -74,7 +74,7 @@ function Main(): JSX.Element
 
       if (ret.data) {
         setChatRoomList(ret.data.list);
-        handleChatRoomListPageInfo({ page: pageNumber, total: Math.ceil(ret.data.total / pageSize) });
+        handleChatRoomListPageInfo({ page: pageNumber, total: ret.data.total });
       } else {
         setChatRoomList([]);
         handleChatRoomListPageInfo({ page: pageNumber, total: 0 });
