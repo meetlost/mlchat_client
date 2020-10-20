@@ -6,13 +6,13 @@ import React from "react";
 import { Modal, Button, Form } from "semantic-ui-react";
 import { useFormik } from "formik";
 
-import { AppAnyType } from "src/Components/App/type";
+import { AppAnyType, FormInputErrorType } from "src/Components/App/type";
 import { ChatRoomType } from "src/Components/ChatRoom/type";
 import ErrorMessage from "src/Components/ErrorMessage";
 import { FetchChatRoomListType } from "src/Components/ChatRoomList/type";
 import { t } from "src/lib/language/translate";
 
-import { HandleOpenType, FormInputErrorType } from "./type";
+import { HandleOpenType } from "./type";
 import { createChatRoom } from "./lib";
 
 interface Props {

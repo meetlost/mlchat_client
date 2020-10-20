@@ -7,6 +7,7 @@ import { Modal, Header, Segment, Button, TextArea, Form, Message, Icon, Sidebar 
 import { w3cwebsocket as wsClient } from "websocket";
 
 import { ChatRoomType } from "src/Components/ChatRoom/type";
+import { getUsername } from "src/Components/UsernameCreationBox/lib";
 import { t } from "src/lib/language/translate";
 
 import { HandleOpenType } from "./type";
@@ -34,7 +35,7 @@ function Main(props: Props): JSX.Element
       const Host = window.location.hostname;
       const Port = window.location.port;
       const chatRoomName = chatRoomInfo.name;
-      const ws = new wsClient(`ws://${Host}:${Port}/ws/${chatRoomName}/by`);
+      const ws = new wsClient(`ws://${Host}:${Port}/ws/${chatRoomName}/${getUsername()}`);
       setWebSocketClient(ws);
 
       ws.onopen = () => {

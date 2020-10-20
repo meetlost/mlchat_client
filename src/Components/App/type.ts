@@ -13,4 +13,9 @@ interface AppRetType {
   data?: AppAnyType;
 }
 
-export type { AppAnyType, AppRetType };
+interface FormInputErrorType {
+  content: string;
+  pointing: string;
+}
+
+export type { AppAnyType, AppRetType, FormInputErrorType };

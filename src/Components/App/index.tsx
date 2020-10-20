@@ -10,7 +10,9 @@ import ChatRoomList from "src/Components/ChatRoomList";
 import Footer from "src/Components/Footer";
 import Loader from "src/Components/Loader";
 import ChatRoomCreationBox from "src/Components/ChatRoomCreationBox";
+import UsernameCreationBox from "src/Components/UsernameCreationBox";
 import { HandleOpenType as HandleChatRoomCreationBoxOpenType } from "src/Components/ChatRoomCreationBox/type";
+import { HandleOpenType as HandleUsernameCreationBoxOpenType } from "src/Components/UsernameCreationBox/type";
 import {
   ChatRoomListPageInfoType,
   HandleChatRoomListPageInfoType,
@@ -24,6 +26,7 @@ import {
   HandleJoinType as HandleChatRoomJoinType,
 } from "src/Components/ChatRoom/type";
 import ChatRoom from "src/Components/ChatRoom";
+import { isUsernameReady } from "src/Components/UsernameCreationBox/lib";
 
 import "./style.scss";
 
@@ -33,6 +36,7 @@ function Main(): JSX.Element
   const defaultPageSize = 2;
   
   const [chatRoomCreationBoxOpen, setChatRoomCreationBoxOpen] = React.useState<boolean>(false);
+  const [usernameCreationBoxOpen, setUsernameCreationBoxOpen] = React.useState<boolean>(false);
   const [chatRoomListPageInfo, setChatRoomListPageInfo] = React.useState<ChatRoomListPageInfoType>({
     pageNumber: defaultPageNumber,
     pageSize: defaultPageSize,
@@ -48,13 +52,25 @@ function Main(): JSX.Element
     setChatRoomCreationBoxOpen(open);
   }, []);
 
+  const handleUsernameCreationBoxOpen: HandleUsernameCreationBoxOpenType = React.useCallback((open: boolean) => {
+    setUsernameCreationBoxOpen(open);
+  }, []);
+
   const handleChatRoomListPageInfo: HandleChatRoomListPageInfoType = React.useCallback((pageInfo: ChatRoomListPageInfoType) => {
     setChatRoomListPageInfo(pageInfo);
   }, []);
 
   const handleChatRoomOpen: HandleChatRoomOpenType = React.useCallback((open: boolean) => {
-    setChatRoomOpen(open);
-  }, []);
+    if (open) {
+      if (isUsernameReady()) {
+        setChatRoomOpen(open);
+      } else {
+        handleUsernameCreationBoxOpen(true);
+      }
+    } else {
+      setChatRoomOpen(open);
+    }
+  }, [handleUsernameCreationBoxOpen]);
 
   const handleChatRoomJoin: HandleChatRoomJoinType = React.useCallback((chatRoom: ChatRoomType) => {
     setChatRoomInfo(chatRoom);
@@ -112,6 +128,11 @@ function Main(): JSX.Element
         open={chatRoomCreationBoxOpen}
         handleOpen={handleChatRoomCreationBoxOpen}
         fetchChatRoomList={fetchChatRoomList}
+      />
+      <UsernameCreationBox
+        open={usernameCreationBoxOpen}
+        handleOpen={handleUsernameCreationBoxOpen}
+        handleChatRoomOpen={handleChatRoomOpen}
       />
       <ChatRoom
         open={chatRoomOpen}
