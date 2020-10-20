@@ -58,6 +58,17 @@
           .ui.sidebar {
             width: 100%;
             background-color: rgba(0, 0, 0, 0.15);
+
+            > .inner {
+              padding: 0.5em;
+              
+              p {
+                margin-bottom: 0.5em;
+              }
+              p:last-child {
+                margin-bottom: 0;
+              }
+            }
           }
         }
 

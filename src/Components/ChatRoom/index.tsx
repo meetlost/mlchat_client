@@ -7,10 +7,12 @@ import { Modal, Header, Segment, Button, TextArea, Form, Message, Icon, Sidebar 
 import { w3cwebsocket as wsClient } from "websocket";
 
 import { ChatRoomType } from "src/Components/ChatRoom/type";
+import { UsernameType } from "src/Components/UsernameCreationBox/type";
 import { getUsername } from "src/Components/UsernameCreationBox/lib";
 import { t } from "src/lib/language/translate";
 
 import { HandleOpenType } from "./type";
+import { isCMDUserList } from "./lib";
 import "./style.scss";
 
 interface Props {
@@ -25,6 +27,15 @@ function Main(props: Props): JSX.Element
 
   const [chatRoomUserListVisible, setChatRoomUserListVisible] = React.useState<boolean>(false);
   const [webSocketClient, setWebSocketClient] = React.useState<wsClient>();
+  const userListRef = React.useRef<HTMLDivElement>(null);
+
+  const updateUserList = React.useCallback((userList: UsernameType[]) => {
+    if (userListRef.current) {
+      let userListHtml = "";
+      userList.forEach(a => userListHtml += `<p>${a.username}</p>`);
+      userListRef.current.innerHTML = userListHtml;
+    }
+  }, []);
 
   const handleClose = React.useCallback(() => {
     handleOpen(false);
@@ -49,8 +60,17 @@ function Main(props: Props): JSX.Element
       };
   
       ws.onmessage = (e) => {
-        ////
-        console.log(e);
+        try {
+          const message = JSON.parse(e.data as string);
+          ////
+          console.log(message);
+          if (isCMDUserList(message.cmd)) {
+            const userList = JSON.parse(message.content);
+            updateUserList(userList);
+          }
+        } catch (error) {
+          // Forget the error.
+        }
       };
   
       ws.onerror = () => {
@@ -61,7 +81,7 @@ function Main(props: Props): JSX.Element
       webSocketClient.close();
       setWebSocketClient(undefined);
     }
-  }, [open, chatRoomInfo, webSocketClient]);
+  }, [open, chatRoomInfo, webSocketClient, updateUserList]);
 
   return (
     <>
@@ -89,7 +109,9 @@ function Main(props: Props): JSX.Element
                     direction="left"
                     animation="overlay"
                     visible={chatRoomUserListVisible}
-                  />
+                  >
+                    <div ref={userListRef} className="inner"></div>
+                  </Sidebar>
                 </Sidebar.Pushable>
               </div>
               <div className="ops-box">
