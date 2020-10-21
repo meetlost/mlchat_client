@@ -48,25 +48,50 @@
 
         .msg-wrapper {
           flex: 1;
+          overflow: hidden;
 
           .ui.message {
             height: 100%;
             border-radius: 0;
             margin: 0;
+            padding: 0;
+
+            > .inner {
+              height: 100%;
+              overflow: auto;
+
+              p {
+                margin: 0;
+                padding: 0.5em 1em;
+              }
+              p:first-child {
+                padding-top: 1em;
+              }
+              p:last-child {
+                padding-bottom: 1em;
+              }
+            }
           }
 
           .ui.sidebar {
             width: 100%;
-            background-color: rgba(0, 0, 0, 0.15);
+            height: 100%;
+            background-color: #E0E1E2;
+            border: 1px solid #D4D4D5;
 
             > .inner {
-              padding: 0.5em;
-              
+              height: 100%;
+              overflow: auto;
+
               p {
-                margin-bottom: 0.5em;
+                margin: 0;
+                padding: 0.5em 1em;
+              }
+              p:first-child {
+                padding-top: 1em;
               }
               p:last-child {
-                margin-bottom: 0;
+                padding-bottom: 1em;
               }
             }
           }

@@ -12,7 +12,7 @@ import { getUsername } from "src/Components/UsernameCreationBox/lib";
 import { t } from "src/lib/language/translate";
 
 import { HandleOpenType } from "./type";
-import { isCMDUserList } from "./lib";
+import { isCMDUserList, isCMDNewUser } from "./lib";
 import "./style.scss";
 
 interface Props {
@@ -28,12 +28,21 @@ function Main(props: Props): JSX.Element
   const [chatRoomUserListVisible, setChatRoomUserListVisible] = React.useState<boolean>(false);
   const [webSocketClient, setWebSocketClient] = React.useState<wsClient>();
   const userListRef = React.useRef<HTMLDivElement>(null);
+  const chatMessageRef = React.useRef<HTMLDivElement>(null);
 
   const updateUserList = React.useCallback((userList: UsernameType[]) => {
     if (userListRef.current) {
       let userListHtml = "";
       userList.forEach(a => userListHtml += `<p>${a.username}</p>`);
       userListRef.current.innerHTML = userListHtml;
+    }
+  }, []);
+
+  const handleNewUserMessage = React.useCallback((message: string) => {
+    if (chatMessageRef.current) {
+      const newNode = document.createElement("p");
+      newNode.innerHTML = message;
+      chatMessageRef.current.appendChild(newNode);
     }
   }, []);
 
@@ -64,9 +73,12 @@ function Main(props: Props): JSX.Element
           const message = JSON.parse(e.data as string);
           ////
           console.log(message);
+          
           if (isCMDUserList(message.cmd)) {
             const userList = JSON.parse(message.content);
             updateUserList(userList);
+          } else if (isCMDNewUser(message.cmd)) {
+            handleNewUserMessage(`Welcome user: ${message.username}`);
           }
         } catch (error) {
           // Forget the error.
@@ -81,7 +93,7 @@ function Main(props: Props): JSX.Element
       webSocketClient.close();
       setWebSocketClient(undefined);
     }
-  }, [open, chatRoomInfo, webSocketClient, updateUserList]);
+  }, [open, chatRoomInfo, webSocketClient, updateUserList, handleNewUserMessage]);
 
   return (
     <>
@@ -104,7 +116,9 @@ function Main(props: Props): JSX.Element
             <div className="chat-panel">
               <div className="msg-wrapper">
                 <Sidebar.Pushable>
-                  <Message></Message>
+                  <Message>
+                    <div ref={chatMessageRef} className="inner"></div>
+                  </Message>
                   <Sidebar
                     direction="left"
                     animation="overlay"
