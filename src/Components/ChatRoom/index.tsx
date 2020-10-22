@@ -12,7 +12,7 @@ import { getUsername } from "src/Components/UsernameCreationBox/lib";
 import { t } from "src/lib/language/translate";
 
 import { HandleOpenType } from "./type";
-import { isCMDUserList, isCMDNewUser, isCMDUserLeft } from "./lib";
+import { isCMDUserList, isCMDNewUser, isCMDUserLeft, isCMDChat } from "./lib";
 import "./style.scss";
 
 interface Props {
@@ -27,8 +27,14 @@ function Main(props: Props): JSX.Element
 
   const [chatRoomUserListVisible, setChatRoomUserListVisible] = React.useState<boolean>(false);
   const [webSocketClient, setWebSocketClient] = React.useState<wsClient>();
+  const [chatMessage, setChatMessage] = React.useState<string>("");
+
   const userListRef = React.useRef<HTMLDivElement>(null);
   const chatMessageRef = React.useRef<HTMLDivElement>(null);
+
+  const onChatMessageChange = React.useCallback((event: React.SyntheticEvent, data) => {
+    setChatMessage(data.value);
+  }, []);
 
   const updateUserList = React.useCallback((userList: UsernameType[]) => {
     if (userListRef.current) {
@@ -43,6 +49,7 @@ function Main(props: Props): JSX.Element
       const newNode = document.createElement("p");
       newNode.innerHTML = message;
       chatMessageRef.current.appendChild(newNode);
+      chatMessageRef.current.scrollTop = chatMessageRef.current.scrollHeight;
     }
   }, []);
 
@@ -51,6 +58,16 @@ function Main(props: Props): JSX.Element
       const newNode = document.createElement("p");
       newNode.innerHTML = message;
       chatMessageRef.current.appendChild(newNode);
+      chatMessageRef.current.scrollTop = chatMessageRef.current.scrollHeight;
+    }
+  }, []);
+
+  const handleChatMessage = React.useCallback((message: string) => {
+    if (chatMessageRef.current) {
+      const newNode = document.createElement("p");
+      newNode.innerHTML = message;
+      chatMessageRef.current.appendChild(newNode);
+      chatMessageRef.current.scrollTop = chatMessageRef.current.scrollHeight;
     }
   }, []);
 
@@ -75,12 +92,10 @@ function Main(props: Props): JSX.Element
         ////
         console.log("close");
       };
-  
+
       ws.onmessage = (e) => {
         try {
           const message = JSON.parse(e.data as string);
-          ////
-          console.log(message);
 
           if (isCMDUserList(message.cmd)) {
             const userList = JSON.parse(message.content);
@@ -89,6 +104,8 @@ function Main(props: Props): JSX.Element
             handleNewUserMessage(`Hello from ${message.username}`);
           } else if (isCMDUserLeft(message.cmd)) {
             handleUserLeftMessage(`Goodbye from ${message.username}`);
+          } else if (isCMDChat(message.cmd)) {
+            handleChatMessage(`${message.username}: ${message.content}`);
           }
         } catch (error) {
           // Forget the error.
@@ -103,7 +120,22 @@ function Main(props: Props): JSX.Element
       webSocketClient.close();
       setWebSocketClient(undefined);
     }
-  }, [open, chatRoomInfo, webSocketClient, updateUserList, handleNewUserMessage, handleUserLeftMessage]);
+  }, [
+    open,
+    chatRoomInfo,
+    webSocketClient,
+    updateUserList,
+    handleNewUserMessage,
+    handleUserLeftMessage,
+    handleChatMessage,
+  ]);
+
+  const sendMessage = React.useCallback(() => {
+    if (webSocketClient && chatMessage) {
+      webSocketClient.send(chatMessage);
+      setChatMessage("");
+    }
+  }, [webSocketClient, chatMessage]);
 
   return (
     <>
@@ -145,11 +177,11 @@ function Main(props: Props): JSX.Element
 
             <div className="chat-input">
               <Form>
-                <TextArea />
+                <TextArea value={chatMessage} onChange={onChatMessageChange} />
               </Form>
             </div>
 
-            <Button fluid>{t("Send")}</Button>
+            <Button onClick={sendMessage} fluid>{t("Send")}</Button>
           </Segment>
         </div>
       </Modal>

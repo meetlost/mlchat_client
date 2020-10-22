@@ -17,4 +17,9 @@ function isCMDUserLeft(cmd: string): boolean
   return cmd === "user_left";
 }
 
-export { isCMDUserList, isCMDNewUser, isCMDUserLeft };
+function isCMDChat(cmd: string): boolean
+{
+  return cmd === "chat";
+}
+
+export { isCMDUserList, isCMDNewUser, isCMDUserLeft, isCMDChat };
