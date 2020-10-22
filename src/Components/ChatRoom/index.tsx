@@ -12,7 +12,7 @@ import { getUsername } from "src/Components/UsernameCreationBox/lib";
 import { t } from "src/lib/language/translate";
 
 import { HandleOpenType } from "./type";
-import { isCMDUserList, isCMDNewUser } from "./lib";
+import { isCMDUserList, isCMDNewUser, isCMDUserLeft } from "./lib";
 import "./style.scss";
 
 interface Props {
@@ -39,6 +39,14 @@ function Main(props: Props): JSX.Element
   }, []);
 
   const handleNewUserMessage = React.useCallback((message: string) => {
+    if (chatMessageRef.current) {
+      const newNode = document.createElement("p");
+      newNode.innerHTML = message;
+      chatMessageRef.current.appendChild(newNode);
+    }
+  }, []);
+
+  const handleUserLeftMessage = React.useCallback((message: string) => {
     if (chatMessageRef.current) {
       const newNode = document.createElement("p");
       newNode.innerHTML = message;
@@ -73,12 +81,14 @@ function Main(props: Props): JSX.Element
           const message = JSON.parse(e.data as string);
           ////
           console.log(message);
-          
+
           if (isCMDUserList(message.cmd)) {
             const userList = JSON.parse(message.content);
             updateUserList(userList);
           } else if (isCMDNewUser(message.cmd)) {
-            handleNewUserMessage(`Welcome user: ${message.username}`);
+            handleNewUserMessage(`Hello from ${message.username}`);
+          } else if (isCMDUserLeft(message.cmd)) {
+            handleUserLeftMessage(`Goodbye from ${message.username}`);
           }
         } catch (error) {
           // Forget the error.
@@ -93,7 +103,7 @@ function Main(props: Props): JSX.Element
       webSocketClient.close();
       setWebSocketClient(undefined);
     }
-  }, [open, chatRoomInfo, webSocketClient, updateUserList, handleNewUserMessage]);
+  }, [open, chatRoomInfo, webSocketClient, updateUserList, handleNewUserMessage, handleUserLeftMessage]);
 
   return (
     <>

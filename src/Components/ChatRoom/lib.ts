@@ -12,4 +12,9 @@ function isCMDNewUser(cmd: string): boolean
   return cmd === "new_user";
 }
 
-export { isCMDUserList, isCMDNewUser };
+function isCMDUserLeft(cmd: string): boolean
+{
+  return cmd === "user_left";
+}
+
+export { isCMDUserList, isCMDNewUser, isCMDUserLeft };
