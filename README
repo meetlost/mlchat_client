@@ -1,2 +1,8 @@
 # mlchat_client
 A web client for MLChat.
+
+# Run
+$ npm run start
+
+# Build
+$ npm run build
