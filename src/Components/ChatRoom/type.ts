@@ -11,4 +11,6 @@ type HandleOpenType = (open: boolean) => void;
 
 type HandleJoinType = (chatRoom: ChatRoomType) => void;
 
-export type { ChatRoomType, HandleOpenType, HandleJoinType };
+type ChatRoomConnectionStatusType = "connecting" | "open" | "close" | "error";
+
+export type { ChatRoomType, HandleOpenType, HandleJoinType, ChatRoomConnectionStatusType };

@@ -11,8 +11,8 @@ import { UsernameType } from "src/Components/UsernameCreationBox/type";
 import { getUsername } from "src/Components/UsernameCreationBox/lib";
 import { t } from "src/lib/language/translate";
 
-import { HandleOpenType } from "./type";
-import { isCMDUserList, isCMDNewUser, isCMDUserLeft, isCMDChat } from "./lib";
+import { HandleOpenType, ChatRoomConnectionStatusType } from "./type";
+import { isCMDUserList, isCMDNewUser, isCMDUserLeft, isCMDChat, formatConnectionStatus } from "./lib";
 import "./style.scss";
 
 interface Props {
@@ -28,6 +28,7 @@ function Main(props: Props): JSX.Element
   const [chatRoomUserListVisible, setChatRoomUserListVisible] = React.useState<boolean>(false);
   const [webSocketClient, setWebSocketClient] = React.useState<wsClient>();
   const [chatMessage, setChatMessage] = React.useState<string>("");
+  const [connectionStatus, setConnectionStatus] = React.useState<ChatRoomConnectionStatusType>("connecting");
 
   const userListRef = React.useRef<HTMLDivElement>(null);
   const chatMessageRef = React.useRef<HTMLDivElement>(null);
@@ -83,14 +84,14 @@ function Main(props: Props): JSX.Element
       const ws = new wsClient(`ws://${Host}:${Port}/ws/${chatRoomName}/${getUsername()}`);
       setWebSocketClient(ws);
 
+      setConnectionStatus("connecting");
+
       ws.onopen = () => {
-        ////
-        console.log("open");
+        setConnectionStatus("open");
       };
   
       ws.onclose = () => {
-        ////
-        console.log("close");
+        setConnectionStatus("close");
       };
 
       ws.onmessage = (e) => {
@@ -113,8 +114,7 @@ function Main(props: Props): JSX.Element
       };
   
       ws.onerror = () => {
-        ////
-        console.log("error");
+        setConnectionStatus("error");
       };
     } else if (!open && webSocketClient) {
       webSocketClient.close();
@@ -147,7 +147,10 @@ function Main(props: Props): JSX.Element
           <Header attached="top">
             <div className="inner">
               <div className="box1">
-                <div className="name">{chatRoomInfo.name}</div>
+                <div className="name">
+                  <Icon name="circle" size="small" color={formatConnectionStatus(connectionStatus)} />
+                  {chatRoomInfo.name}
+                </div>
                 <div className="intro">{chatRoomInfo.intro}</div>
               </div>
               <Icon name="close" onClick={handleClose} />

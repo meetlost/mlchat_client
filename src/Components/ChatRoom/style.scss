@@ -19,6 +19,12 @@
           flex: 1;
           overflow: hidden;
 
+          .name {
+            > .icon {
+              margin-right: 0.5em;
+            }
+          }
+
           .intro {
             opacity: 0.5;
           }
