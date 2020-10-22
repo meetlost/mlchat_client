@@ -33,7 +33,7 @@ import "./style.scss";
 function Main(): JSX.Element
 {
   const defaultPageNumber = 1;
-  const defaultPageSize = 2;
+  const defaultPageSize = 10;
   
   const [chatRoomCreationBoxOpen, setChatRoomCreationBoxOpen] = React.useState<boolean>(false);
   const [usernameCreationBoxOpen, setUsernameCreationBoxOpen] = React.useState<boolean>(false);
