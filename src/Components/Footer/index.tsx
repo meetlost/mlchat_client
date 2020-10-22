@@ -23,6 +23,7 @@ function Main(props: Props): JSX.Element
       <div className="footer-box">
         <Pagination
           defaultActivePage={chatRoomListPageInfo.pageNumber}
+          activePage={chatRoomListPageInfo.pageNumber}
           totalPages={Math.ceil(chatRoomListPageInfo.total / chatRoomListPageInfo.pageSize)}
           firstItem={null}
           lastItem={null}
