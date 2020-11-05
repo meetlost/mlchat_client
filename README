@@ -1,6 +1,9 @@
 # mlchat_client
 A web client for MLChat.
 
+# Install Dependencies
+$ npm install
+
 # Run
 $ npm run start
 
