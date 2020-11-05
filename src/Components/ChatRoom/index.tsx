@@ -81,7 +81,8 @@ function Main(props: Props): JSX.Element
       const Host = window.location.hostname;
       const Port = window.location.port;
       const chatRoomName = chatRoomInfo.name;
-      const ws = new wsClient(`ws://${Host}:${Port}/ws/${chatRoomName}/${getUsername()}`);
+      const wsHostProtocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+      const ws = new wsClient(`${wsHostProtocol}//${Host}:${Port}/ws/${chatRoomName}/${getUsername()}`);
       setWebSocketClient(ws);
 
       setConnectionStatus("connecting");
